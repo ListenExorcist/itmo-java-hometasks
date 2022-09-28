@@ -47,10 +47,11 @@ public class Task3 {
                 legalInputReceived = false;
                 if (answer == 1) {
                     searchStart = attempt;
+                    attempt = (searchStart + searchEnd) / 2 + 1;
                 } else {
                     searchEnd = attempt;
+                    attempt = (searchStart + searchEnd) / 2;
                 }
-                attempt = (searchStart + searchEnd) / 2;
             }
         }
     }
