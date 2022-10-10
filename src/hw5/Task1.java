@@ -5,13 +5,11 @@ import java.util.Arrays;
 public class Task1 {
     public static void main(String[] args) {
         int[] array = new int[10];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = (int) (Math.random() * 0x100000000L - 0x80000000L);
-        }
         int maxValue = Integer.MIN_VALUE;
         int minValue = Integer.MAX_VALUE;
         double average = 0;
         for (int i = 0; i < array.length; i++) {
+            array[i] = (int) (Math.random() * 0x100000000L - 0x80000000L);
             if (array[i] > maxValue) {
                 maxValue = array[i];
             }
