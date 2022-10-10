@@ -1,6 +1,6 @@
 package ru.itmo.homeworks.hw8.base;
 
-public class Human {
+public abstract class Human {
     private String name;
     private int age;
 

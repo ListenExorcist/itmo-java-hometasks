@@ -1,6 +1,6 @@
 package ru.itmo.homeworks.hw8.base;
 
-public class ClassroomHuman extends Human {
+public abstract class ClassroomHuman extends Human {
     private String subject;
 
     public ClassroomHuman(String name, int age, String subject) {
