@@ -56,9 +56,6 @@ public class Cat {
             int miceEscaped = 0;
             int miceCaught = 0;
             for (int i = 0; i < cat.count; i++) {
-                if (cat.mice[i] == null) {
-                    break;
-                }
                 if (speed > cat.mice[i].getSpeed() && count < mice.length) {
                     miceCaught++;
                     mice[count] = cat.mice[i];

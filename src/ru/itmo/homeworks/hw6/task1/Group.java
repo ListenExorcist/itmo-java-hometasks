@@ -2,7 +2,7 @@ package ru.itmo.homeworks.hw6.task1;
 
 public class Group {
     private boolean isRecruiting;
-    private Alpinist[] alpinists = new Alpinist[10];
+    private Alpinist[] alpinists;
     private Mountain mountain;
 
     public Group(boolean isRecruiting, Alpinist[] alpinists, Mountain mountain) {
