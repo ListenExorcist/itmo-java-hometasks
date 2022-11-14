@@ -3,11 +3,11 @@ package ru.itmo.homeworks.hw11;
 import java.util.*;
 
 public class MapTask {
-    public static ArrayList<String> cityLogins(Map<String, String> citiesMap, String city) {
+    public static List<String> cityLogins(Map<String, String> citiesMap, String city) {
         ArrayList<String> result = new ArrayList<>();
         if (city == null) return result;
         for (Map.Entry<String, String> entry : citiesMap.entrySet()) {
-            if (city.equals(entry.getValue())) {
+            if (city.equalsIgnoreCase(entry.getValue())) {
                 result.add(entry.getKey());
             }
         }
@@ -39,13 +39,13 @@ public class MapTask {
     public static HashMap<Integer, ArrayList<String>> mapWordsByLength(String text) {
         HashMap<Integer, ArrayList<String>> result = new HashMap<>();
         if (text == null) return result;
-        String[] words = text.split(" ");
+        String[] words = text.trim().toLowerCase().split(" ");
         for (String word : words) {
             if (!result.containsKey(word.length())) {
                 result.put(word.length(), new ArrayList<String>());
-                result.get(word.length()).add(word.toLowerCase());
-            } else if (!result.get(word.length()).contains(word.toLowerCase())) {
-                result.get(word.length()).add(word.toLowerCase());
+                result.get(word.length()).add(word);
+            } else if (!result.get(word.length()).contains(word)) {
+                result.get(word.length()).add(word);
             }
         }
         return result;
@@ -57,7 +57,7 @@ public class MapTask {
         String[] words = text.split(" ");
         long count = 0;
         for (String s : words) {
-            if (word.toLowerCase().equals(s.toLowerCase())) count++;
+            if (word.equalsIgnoreCase(s)) count++;
         }
         result.put(word.toLowerCase(), count);
         return result;
@@ -65,7 +65,7 @@ public class MapTask {
 
     public static void print10MostFrequentWords(String text) {
         if (text == null) return;
-        String[] words = text.split(" ");
+        String[] words = text.trim().toLowerCase().split(" ");
         HashMap<String, Long> map = new HashMap<>();
         for (String word : words) {
             map.putAll(wordCountMap(text, word));
@@ -95,7 +95,7 @@ public class MapTask {
 
         String city = "Тверь";
 
-        ArrayList<String> cityLogins = cityLogins(firstTaskMap, city);
+        List<String> cityLogins = cityLogins(firstTaskMap, city);
         System.out.println(cityLogins);
 
         List<String> words = new ArrayList<>();

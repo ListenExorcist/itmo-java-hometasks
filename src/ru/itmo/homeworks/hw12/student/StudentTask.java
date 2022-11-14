@@ -30,7 +30,8 @@ public class StudentTask {
         ));
 
         System.out.println("Students by gender:");
-        Map<Student.Gender, ArrayList<Student>> studentsByGenderMap = students.stream().collect(Collectors.groupingBy(
+        Map<Student.Gender, ArrayList<Student>> studentsByGenderMap = students.stream()
+                .collect(Collectors.groupingBy(
                 Student::getGender,
                 Collectors.toCollection(ArrayList::new)
         ));
@@ -38,7 +39,8 @@ public class StudentTask {
         System.out.println();
 
         System.out.println("Average age:");
-        Double averageAge = students.stream().collect(Collectors.averagingInt(
+        double averageAge = students.stream()
+                .collect(Collectors.averagingInt(
                 student -> LocalDate.now().getYear() - student.getBirth().getYear()
         ));
         System.out.println(averageAge);
@@ -47,40 +49,47 @@ public class StudentTask {
         Comparator<Student> ageComparator = (s1, s2) -> s2.getBirth().getYear() - s1.getBirth().getYear();
 
         System.out.println("Youngest student:");
-        Student youngestStudent = students.stream().min(ageComparator).get();
+        Student youngestStudent = students.stream()
+                .min(ageComparator)
+                .orElse(null);
         System.out.println(youngestStudent);
         System.out.println();
 
         System.out.println("Oldest student:");
-        Student oldestStudent = students.stream().max(ageComparator).get();
+        Student oldestStudent = students.stream()
+                .max(ageComparator)
+                .orElse(null);
         System.out.println(oldestStudent);
         System.out.println();
 
         System.out.println("Students by birth year:");
-        Map<Integer, List<Student>> studentsByBirthYear = students.stream().collect(Collectors.groupingBy(
+        Map<Integer, List<Student>> studentsByBirthYear = students.stream()
+                .collect(Collectors.groupingBy(
                 s -> s.getBirth().getYear()
         ));
         System.out.println(studentsByBirthYear);
         System.out.println();
 
         System.out.println("Without repeating names:");
-        students.stream()
+        /*students.stream()
                 .filter(distinctByKey(Student::getName))
-                .forEach(s -> System.out.println(s.getName() + " " + s.getBirth()));
+                .forEach(s -> System.out.println(s.getName() + " " + s.getBirth()));*/
+        Collection<Student> uniqueByName = students.stream()
+                        .collect(Collectors.toMap(
+                                Student::getName,
+                                Function.identity(), // student -> student
+                                ((student1, student2) -> student1)
+                        )).values();
+        uniqueByName.forEach(s -> System.out.println(s.getName() + " " + s.getBirth()));
         System.out.println();
 
         System.out.println("Sorted:");
         List<Student> sortedStudents = students.stream()
-                .sorted((s1, s2) -> {
-                    if (s1.getGender() != s2.getGender()) {
-                        return s1.getGender().ordinal() - s2.getGender().ordinal();
-                    } else if (!s1.getBirth().equals(s2.getBirth())) {
-                        return s1.getBirth().compareTo(s2.getBirth());
-                    } else {
-                        return s2.getName().compareTo(s1.getName());
-                    }
-                })
-                .toList();
+                .sorted(Comparator
+                        .comparing(Student::getGender)
+                        .thenComparing(Student::getBirth)
+                        .thenComparing((s1, s2) -> s2.getName().compareTo(s1.getName())))
+                        .toList();
         System.out.println(sortedStudents);
         System.out.println();
 
@@ -95,7 +104,9 @@ public class StudentTask {
 
         String someName = "Алена";
         System.out.println("Students with name " + someName + ':');
-        List<Student> someNameList = students.stream().filter(s -> s.getName().equals(someName)).toList();
+        List<Student> someNameList = students.stream()
+                .filter(s -> s.getName().equals(someName))
+                .toList();
         System.out.println(someNameList);
         System.out.println();
 

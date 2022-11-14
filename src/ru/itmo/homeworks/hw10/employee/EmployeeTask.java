@@ -9,9 +9,12 @@ public class EmployeeTask {
         System.out.println(employeeList);
         employeeList.sort(new NameComparator());
         System.out.println(employeeList);
-        employeeList.sort(new NameSalaryComparator());
+        employeeList.sort(new NameComparator().thenComparing(new SalaryComparator()));
         System.out.println(employeeList);
-        employeeList.sort(new NameSalaryAgeCompanyComparator());
+        employeeList.sort(new NameComparator()
+                .thenComparing(new SalaryComparator())
+                .thenComparing(new AgeComparator())
+                .thenComparing(new CompanyComparator()));
         System.out.println(employeeList);
     }
 }
@@ -23,28 +26,23 @@ class NameComparator implements Comparator<Employee> {
     }
 }
 
-class NameSalaryComparator implements Comparator<Employee> {
+class SalaryComparator implements Comparator<Employee> {
     @Override
     public int compare(Employee o1, Employee o2) {
-        if (o1.getName().compareTo(o2.getName()) != 0) {
-            return o1.getName().compareTo(o2.getName());
-        } else {
-            return o1.getSalary() - o2.getSalary();
-        }
+        return o1.getSalary() - o2.getSalary();
     }
 }
 
-class NameSalaryAgeCompanyComparator implements Comparator<Employee> {
+class AgeComparator implements Comparator<Employee> {
     @Override
     public int compare(Employee o1, Employee o2) {
-        if (o1.getName().compareTo(o2.getName()) != 0) {
-            return o1.getName().compareTo(o2.getName());
-        } else if (o1.getSalary() != o2.getSalary()) {
-            return o1.getSalary() - o2.getSalary();
-        } else if (o1.getAge() != o2.getAge()) {
-            return o1.getAge() - o2.getAge();
-        } else {
-            return o1.getCompany().compareTo(o2.getCompany());
-        }
+        return o1.getAge() - o2.getAge();
+    }
+}
+
+class CompanyComparator implements Comparator<Employee> {
+    @Override
+    public int compare(Employee o1, Employee o2) {
+        return o1.getCompany().compareTo(o2.getCompany());
     }
 }

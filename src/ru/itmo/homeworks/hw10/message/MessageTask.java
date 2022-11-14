@@ -4,22 +4,13 @@ import java.util.*;
 
 public class MessageTask {
     public static void countEachPriority(List<Message> messageList) {
-        int lowPriorityMessagesCount = 0;
-        int mediumPriorityMessagesCount = 0;
-        int highPriorityMessagesCount = 0;
-        int urgentPriorityMessagesCount = 0;
+        int[] counts = new int[MessagePriority.values().length];
         for (Message message : messageList) {
-            switch (message.getPriority()) {
-                case LOW -> lowPriorityMessagesCount++;
-                case MEDIUM -> mediumPriorityMessagesCount++;
-                case HIGH -> highPriorityMessagesCount++;
-                case URGENT -> urgentPriorityMessagesCount++;
-            }
+            counts[message.getPriority().ordinal()]++;
         }
-        System.out.println("Low priority messages: " + lowPriorityMessagesCount);
-        System.out.println("Medium priority messages: " + mediumPriorityMessagesCount);
-        System.out.println("High priority messages: " + highPriorityMessagesCount);
-        System.out.println("Urgent priority messages: " + urgentPriorityMessagesCount);
+        for (MessagePriority priority : MessagePriority.values()) {
+            System.out.println(priority + ": " + counts[priority.ordinal()]);
+        }
     }
 
     public static void countEachCode(List<Message> messageList) {
@@ -40,13 +31,7 @@ public class MessageTask {
     }
 
     public static List<Message> uniqueMessagesInOriginalOrder(List<Message> messageList) {
-        List<Message> uniqueMessages = new ArrayList<>();
-        for (Message message : messageList) {
-            if (!uniqueMessages.contains(message)) {
-                uniqueMessages.add(message);
-            }
-        }
-        return new ArrayList<Message>(uniqueMessages);
+        return new ArrayList<Message>(new LinkedHashSet<>(messageList));
     }
 
     public static void removeEach(List<Message> messageList, MessagePriority priority) {

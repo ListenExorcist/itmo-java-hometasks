@@ -1,7 +1,9 @@
 package ru.itmo.homeworks.hw12;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class AdditionalTask {
@@ -14,7 +16,7 @@ public class AdditionalTask {
                 "uncover many web sites still uncover in their infancy Various versions uncover have evolved over the years uncover sometimes by accident" +
                 " sometimes on purpose injected humour and the like";
 
-        Map<String, Long> map = Arrays.stream(text.split(" "))
+        /*Map<String, Long> map = Arrays.stream(text.split(" "))
                 .collect(Collectors.groupingBy(
                         word -> word,
                         Collectors.counting()
@@ -27,6 +29,13 @@ public class AdditionalTask {
                         Map.Entry::getKey,
                         Collectors.summingLong(Map.Entry::getValue)
                 ));
-        System.out.println(map);
+        System.out.println(map);*/
+        Map<String, Long> map = Arrays.stream(text.trim().toLowerCase().split(" "))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

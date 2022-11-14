@@ -20,20 +20,20 @@ public class TransactionsTask {
         Transaction transaction7 = new Transaction("c38209a7-dbb7-47ee-b162-1953e29eab94", 3400, account3);
 
         // дано:
-        Stream<Transaction> transactionStream01 = Stream.of(transaction1, transaction2, transaction3,
+        Stream<Transaction> transactionStream = Stream.of(transaction1, transaction2, transaction3,
                 transaction4, transaction5, transaction6, transaction7);
 
-        Map<String, Long> accountTransactionsMap = transactionStream01.collect(Collectors.groupingBy(
+        Map<String, Long> accountTransactionsMap = transactionStream.collect(Collectors.groupingBy(
                 transaction -> transaction.getAccount().getNumber(),
                 Collectors.summingLong(Transaction::getSum)
         ));
         System.out.println(accountTransactionsMap);
         System.out.println();
 
-        Stream<Transaction> transactionStream02 = Stream.of(transaction1, transaction2, transaction3,
+        transactionStream = Stream.of(transaction1, transaction2, transaction3,
                 transaction4, transaction5, transaction6, transaction7);
 
-        long sum = transactionStream02.collect(Collectors.summingLong(Transaction::getSum));
+        long sum = transactionStream.collect(Collectors.summingLong(t -> t.getAccount().getBalance()));
         System.out.println(sum);
     }
 }
